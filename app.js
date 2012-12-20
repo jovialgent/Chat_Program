@@ -36,7 +36,7 @@ app.configure('development', function(){
 app.get('/', routes.home);
 app.get('/users', user.list);
 app.get('/success', routes.success);
-app.get('chat', routs.chat);
+app.get('/chat', routes.chat);
 
 //All the POST Routes
 app.post('/', routes.home_post_handler);
