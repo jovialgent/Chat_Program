@@ -7,7 +7,8 @@ var express = require('express')
   , routes = require('./routes/index')
   , user = require('./routes/user')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , io = require('socket.io');
 
 var app = express();
 
@@ -35,6 +36,7 @@ app.configure('development', function(){
 app.get('/', routes.home);
 app.get('/users', user.list);
 app.get('/success', routes.success);
+app.get('chat', routs.chat);
 
 //All the POST Routes
 app.post('/', routes.home_post_handler);

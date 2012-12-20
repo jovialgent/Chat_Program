@@ -37,7 +37,7 @@
  				if(rows[0] != undefined){
  					temp = rows[0];
  					if(temp['password'] == req.session.password){
-						res.redirect('https://base.msudenver.edu/chat'); 
+						res.redirect('/chat'); 
  					}				
  				}
  			}
