@@ -53,7 +53,7 @@
  };
 
  exports.chat = function(req,res){
- 	res.render('chat', {title: "Chat Room"});
+ 	res.render('chat', {title: "Chat Room", username: req.session.username});
 
  };
 
@@ -74,14 +74,21 @@
  * Code taken from:
  * http://psitsmike.com/2011/09/node-js-and-socket-io-chat-tutorial/
  */
- io.sockets.on('connection', function(socket{
+ io.sockets.on('connection', function(socket){
  	socket.on('sendchat', function(data){
  		io.sockets.emit('updatechat', socket.username, data);
  	});
  	socket.on('adduser', function(username){
  		socket.username - username;
  		usernames[username] = username;
- 		socket.emit('update')
+ 		socket.emit('updatechat'. 'SERVER', 'you have been connected');
+ 		socket.broadcast.emit('updatechat', 'SERVER', username+' has connected');
+ 		io.sockets.emit('updateusers', usernames);
+ 	});
+ 	socket.on('disconnect' function(){
+ 		delete usernames[socket.username];
+ 		io.sockets.emit('updateusers', usernames);
+ 		socket.broadcast.emit('update', 'SERVER', socket.username + 'has disconnected')
  	})
  }))
 
