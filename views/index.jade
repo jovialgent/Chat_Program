@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  #container
+    h1= "Welcome to the User Login"
+    #display
+        #login        
+            form(method='post')
+                | Enter your user name and password
+                div
+                    p
+                       label Username:
+                       input(type='text', name='username')
+                    p
+                       label Password:
+                       input(type='password', name='password')
+                    input(type='submit', value='Log In')
+                    p  
+
+                    title
+    
+
