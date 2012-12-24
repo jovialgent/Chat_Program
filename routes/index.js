@@ -13,13 +13,13 @@
 
 
 //Configure the mySQL database call
- var mysql = _mysql.createConnection({
- 	host: HOST,
- 	port: 3306,
- 	user: USERNAME,
- 	password: PASSWORD
-
- });
+// var mysql = _mysql.createConnection({
+// 	host: HOST,
+// 	port: 3306,
+// 	user: USERNAME,
+// 	password: PASSWORD
+//
+//});
 
 
 
@@ -33,8 +33,8 @@
  	else{
  		var temp = DATABASE;
  		var temp_user = req.session.username;
- 		mysql.query("USE " + DATABASE);
- 		mysql.query("SELECT password FROM " + TABLE + " WHERE username='"+ temp_user + "'", function(err, rows, fields){
+ 		//mysql.query("USE " + DATABASE);
+ 		//mysql.query("SELECT password FROM " + TABLE + " WHERE username='"+ temp_user + "'", function(err, rows, fields){
  			if(err) res.render('index', {title:"Username/Password not found"});
  			else{
  				//If there is something found it will see if the password is correct
@@ -46,7 +46,7 @@
  					}				
  				}
  			}
- 		});
+ 		//});
  	}
 
 
@@ -70,25 +70,4 @@
  	res.render('successful', {title: "SUCCESS!"});
  }
 
-/*
- * Code taken from:
- * http://psitsmike.com/2011/09/node-js-and-socket-io-chat-tutorial/
- */
- io.sockets.on('connection', function(socket){
- 	socket.on('sendchat', function(data){
- 		io.sockets.emit('updatechat', socket.username, data);
- 	});
- 	socket.on('adduser', function(username){
- 		socket.username - username;
- 		usernames[username] = username;
- 		socket.emit('updatechat'. 'SERVER', 'you have been connected');
- 		socket.broadcast.emit('updatechat', 'SERVER', username+' has connected');
- 		io.sockets.emit('updateusers', usernames);
- 	});
- 	socket.on('disconnect' function(){
- 		delete usernames[socket.username];
- 		io.sockets.emit('updateusers', usernames);
- 		socket.broadcast.emit('update', 'SERVER', socket.username + 'has disconnected')
- 	})
- }))
 
