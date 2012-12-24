@@ -9,9 +9,6 @@
    , PASSWORD = 'root'
    , DATABASE = 'test'
    , TABLE    = 'usernames_passwords';
-   , TABLE    = 'usernames_passwords'
-   , io = require('socket.io');
-
 
 
 //Configure the mySQL database call
@@ -43,7 +40,6 @@ var mock_database = {
  		for (var i = 0; i < temp_data.length ; i++) {
  			if(temp_data[i].username == req.session.username && temp_data[i].password == req.session.password){
  				res.redirect('/chat');
- 				res.redirect('/success');
  			}
  		};
  		res.render('index', {title:"Log in Please"});
