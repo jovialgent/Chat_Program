@@ -36,11 +36,16 @@ var mock_database = {
  	else{
  		var temp = DATABASE;
  		var temp_user = req.session.username;
- 		for(user in mock_database){
- 			console.log(user.password);
- 		}
+ 		var temp_data = mock_database.users;
+ 		console.log(temp_data);
+ 		for (var i = 0; i < temp_data.length ; i++) {
+ 			if(temp_data[i].username == req.session.username && temp_data[i].password == req.session.password){
+ 				res.redirect('/success');
+ 			}
+ 		};
+ 		res.render('index', {title:"Log in Please"});
 
- 		//mysql.query("USE " + DATABASE);
+ 	    //mysql.query("USE " + DATABASE);
  		//mysql.query("SELECT password FROM " + TABLE + " WHERE username='"+ temp_user + "'", function(err, rows, fields){
  		//	if(err) res.render('index', {title:"Username/Password not found"});
  		//	else{
