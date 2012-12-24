@@ -21,7 +21,10 @@
 //
 //});
 
+var mock_database = {
+	"users" : [{"username": "test123", "password": "blah", "level": "USER"}]
 
+};
 
  //This method will be invoke when you go ./
  exports.home = function(req, res){
@@ -33,19 +36,23 @@
  	else{
  		var temp = DATABASE;
  		var temp_user = req.session.username;
+ 		for(user in mock_database){
+ 			console.log(user.password);
+ 		}
+
  		//mysql.query("USE " + DATABASE);
  		//mysql.query("SELECT password FROM " + TABLE + " WHERE username='"+ temp_user + "'", function(err, rows, fields){
- 			if(err) res.render('index', {title:"Username/Password not found"});
- 			else{
- 				//If there is something found it will see if the password is correct
- 				if(rows[0] != undefined){
- 					temp = rows[0];
- 					//If the password matches with the user name then it will go through
- 					if(temp['password'] == req.session.password){
-						res.redirect('/chat'); 
- 					}				
- 				}
- 			}
+ 		//	if(err) res.render('index', {title:"Username/Password not found"});
+ 		//	else{
+ 		//		//If there is something found it will see if the password is correct
+ 		//		if(rows[0] != undefined){
+ 		//			temp = rows[0];
+ 		//			//If the password matches with the user name then it will go through
+ 		//			if(temp['password'] == req.session.password){
+		//				res.redirect('/chat'); 
+ 		//			}				
+ 		//		}
+ 		//	}
  		//});
  	}
 
