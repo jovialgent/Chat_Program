@@ -36,7 +36,6 @@ var mock_database = {
  		var temp = DATABASE;
  		var temp_user = req.session.username;
  		var temp_data = mock_database.users;
- 		console.log(temp_data);
  		for (var i = 0; i < temp_data.length ; i++) {
  			if(temp_data[i].username == req.session.username && temp_data[i].password == req.session.password){
  				res.redirect('/chat');
