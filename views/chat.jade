@@ -4,16 +4,13 @@ script(src='socket.io/socket.io.js')
 script
     var socket = io.connect('http://localhost:3000');
     socket.on('connect', function(){
-        socket.emit('adduser', prompt("What is your username?"));
-    })
+        socket.emit('init');
+    });
     socket.on('updatechat', function (user, data) {
         $('#conversation').append('<b>'+ user + ':</b> ' + data + '<br>');
     });
     socket.on('updateusers', function(data){
-        $('#users').empty();
-        $.each(data, function(key,value){
-            $('#users').append('<div>' + key + '</div>');
-        });
+        $('#conversation').append(data);
     });
     $(function(){
         $('#datasend').click(function() {
@@ -27,7 +24,6 @@ script
 block content
   #container
     #users
-
     #conversation
     input(type='text', id="data", style="width:200px;")
     input(type="button", id="datasend", value="send")

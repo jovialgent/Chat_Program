@@ -1,22 +1,33 @@
-extends layout
+html
+  title=title
+  link(rel='stylesheet', href='/stylesheets/style.css')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js')
+  script(src='socket.io/socket.io.js')
+  script
+      var socket = io.connect("http://localhost:3000");
+      $(function(){
+          $('#datasend').click(function() {
+             var username_ = $('#username').val();
+             var password_ = $('#password').val();
+             socket.emit('adduser', username_, password_);  
+          });
 
-block content
-  #container
-    h1= "Welcome to the User Login"
-    #display
-        #login        
-            form(method='post')
-                | Enter your user name and password
-                div
-                    p
-                       label Username:
-                       input(type='text', name='username')
-                    p
-                       label Password:
-                       input(type='password', name='password')
-                    input(type='submit', value='Log In')
-                    p  
+      });
 
-                    title
+  block content
+    #container
+      h1= "Welcome to the User Login"
+      #display
+          #login        
+              form(method='post')
+                  | Enter your user name and password
+                  div
+                      p
+                         label Username:
+                         input(type='text', id='username',  name='username')
+                      p
+                         label Password:
+                         input(type='password', id="password", name='password')
+                      input(type='submit', id="datasend", value='Log In')
     
 

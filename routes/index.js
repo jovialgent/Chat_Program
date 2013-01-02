@@ -21,7 +21,8 @@
 //});
 
 var mock_database = {
-	"users" : [{"username": "test123", "password": "blah", "level": "USER"}]
+  "users" : [{  "username": "test123", "password": "blah", "level": "USER"},
+             {  "username": "test234", "password": "blah", "level": "USER"}]
 
 };
 

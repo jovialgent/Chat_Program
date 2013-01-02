@@ -53,21 +53,31 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 
 var io = require('socket.io').listen(server);
 var usernames = [];
+var num_users = 0;
 var mock_database = {
-  "users" : [{"username": "test123", "password": "blah", "level": "USER"}]
+  "users" : [{  "username": "test123", "password": "blah", "level": "USER"},
+             {  "username": "test234", "password": "blah", "level": "USER"}]
 
 };
 var num_users = 0;
 io.sockets.on('connection', function(socket){
   socket.on('sendchat', function(data){
-    io.sockets.emit('updatechat', socket.username, data);
+    io.sockets.emit('updatechat', usernames[0], data);
   });
-  socket.on('adduser', function(username){
-    socket.username = username;
-    usernames[username] = username;
-    socket.emit('updatechat', 'SERVER', 'you have been connected');
-    socket.broadcast.emit('updatechat', 'SERVER', username + ' has connected');
-    io.sockets.emit('updateusers', usernames);
+  socket.on('adduser', function(username, password){
+    console.log("USERNAME: " + username + " WAS SENT!");
+    var temp_data = mock_database.users;
+    for (var i = 0; i < temp_data.length ; i++) {
+      if(temp_data[i].username == username && temp_data[i].password == password){
+        usernames.push(username);
+        console.log("Username: " + username + " Password: " + password + " Users:" + usernames.length);
+        socket.emit('updatechat', 'SERVER', username + ' has been connected');
+      }
+    };
+    
   });
+  socket.on('init', function(){
+    socket.emit('updateusers', usernames[usernames.length-1]);
+  })
  });
 
