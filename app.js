@@ -3,16 +3,16 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes/index')
-  , user = require('./routes/user')
-  , http = require('http')
-  , path = require('path');
+ var express = require('express')
+ , routes = require('./routes/index')
+ , user = require('./routes/user')
+ , http = require('http')
+ , path = require('path');
 
-var app = express();
+ var app = express();
 
 
-app.configure(function(){
+ app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -27,7 +27,7 @@ app.configure(function(){
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
-app.configure('development', function(){
+ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
@@ -51,18 +51,22 @@ var server = http.createServer(app).listen(app.get('port'), function(){
  * http://psitsmike.com/2011/09/node-js-and-socket-io-chat-tutorial/
  */
 
-var io = require('socket.io').listen(server);
-var usernames = [];
-var num_users = 0;
-var mock_database = {
+ var io = require('socket.io').listen(server);
+ var usernames = [];
+ var num_users = 0;
+ var mock_database = {
   "users" : [{  "username": "test123", "password": "blah", "level": "USER"},
-             {  "username": "test234", "password": "blah", "level": "USER"}]
+  {  "username": "test234", "password": "blah", "level": "USER"}]
 
 };
 var num_users = 0;
 io.sockets.on('connection', function(socket){
-  socket.on('sendchat', function(data){
-    io.sockets.emit('updatechat', usernames[0], data);
+  socket.on('sendchat', function(data, current_user){
+    for(var i = 0; i < usernames.length; i++){
+      if(current_user == usernames[i]){
+        io.sockets.emit('updatechat', usernames[i], data);
+      }
+    };
   });
   socket.on('adduser', function(username, password){
     console.log("USERNAME: " + username + " WAS SENT!");
@@ -79,5 +83,5 @@ io.sockets.on('connection', function(socket){
   socket.on('init', function(){
     socket.emit('updateusers', usernames[usernames.length-1]);
   })
- });
+});
 
