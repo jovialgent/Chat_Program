@@ -9,7 +9,7 @@ html
           $('#datasend').click(function() {
              var username_ = $('#username').val();
              var password_ = $('#password').val();
-             socket.emit('adduser', username_, password_);  
+             sockets.emit('adduser', username_, password_);  
           });
 
       });

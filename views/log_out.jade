@@ -1,0 +1,20 @@
+html
+  title=title
+  link(rel='stylesheet', href='/stylesheets/style.css')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js')
+  script(src='socket.io/socket.io.js')
+  script
+      var socket = io.connect('http://localhost:3000');
+      
+      socket.on('connect', function(){
+        socket.emit('log_out');
+      });
+
+  block content
+    #container
+
+      h1= "You have been successfully logged out!"
+      a(href='/') Click here to return home
+      #users
+    
+
