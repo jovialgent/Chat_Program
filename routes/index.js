@@ -26,6 +26,8 @@ var mock_database = {
 
 };
 
+
+
  //This method will be invoke when you go ./
  exports.home = function(req, res){
  	//If the username is undefined or set to the default NULL then it will ask to login

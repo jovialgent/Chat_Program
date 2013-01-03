@@ -31,14 +31,14 @@
   app.use(express.errorHandler());
 });
 
-var server = http.createServer(app).listen(app.get('port'), function(){
+ var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
 
-var io = require('socket.io').listen(server);
-var usernames = [];
-var num_users = 0;
-var mock_database = {
+ var io = require('socket.io').listen(server);
+ var usernames = [];
+ var num_users = 0;
+ var mock_database = {
   "users" : [{  "username": "test123", "password": "blah", "level": "USER"},
   {  "username": "test234", "password": "blah", "level": "USER"}]
 
@@ -65,28 +65,46 @@ app.post('/', routes.home_post_handler);
  * http://psitsmike.com/2011/09/node-js-and-socket-io-chat-tutorial/
  */
 
-io.sockets.on('connection', function(socket){
-  socket.on('sendchat', function(data, current_user){
-    console.log(socket);
+ io.sockets.on('connection', function(socket){
+  socket.on('sendchat', function(msg, current_user){
+    console.log(socket.store.data);
     for(var i = 0; i < usernames.length; i++){
+      io.sockets.emit('updatehat', current_user, msg);
       if(current_user == usernames[i]){
-        io.sockets.emit('updatechat', current_user, data);
-      }
-    };
-  });
+       socket.get('nickname', function (err, name) {
+        io.sockets.emit('updatechat', name, msg);
+       });
+     }
+   };
+ });
   socket.on('log_out', function(user){
     console.log("THIS USER HAS BEEN LOGGED OFF: " + user);
-
     for(var i = 0; i < usernames.length; i++){
       if(user == usernames[i]){
         usernames.splice(i, 1);
         io.sockets.emit('updateusers', usernames);
+        socket.disconnect();
       }
     };
   });
+  socket.on('ready', function(){
+    console.log('connected!');
+  });
+
+  socket.on('set nickname', function (name) {
+    socket.set('nickname', usernames[usernames.length-1], function () {
+      socket.emit('ready');
+    });
+  });
+
+  socket.on('msg', function () {
+    socket.get('nickname', function (err, name) {
+      console.log('Chat message by ', name);
+    });
+  });
+  
   socket.on('adduser', function(username, password){
     console.log("USERNAME: " + username + " WAS SENT!");
-    socket.set('id', username );
     var temp_data = mock_database.users;
     for (var i = 0; i < temp_data.length ; i++) {
       if(temp_data[i].username == username && temp_data[i].password == password){
@@ -94,12 +112,8 @@ io.sockets.on('connection', function(socket){
         console.log("Username: " + username + " Users:" + usernames.length);
         io.sockets.emit('updatechat', 'SERVER', username + ' has been connected');
       }
-    };
-    
+    };    
   });
-  socket.on('update', function(){
-    io.sockets.emit('updateusers', usernames);
-  })
   socket.on('init', function(){
     io.sockets.emit('updateusers', usernames);
     io.sockets.emit('set_current_user', usernames[usernames.length - 1]);
