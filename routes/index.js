@@ -22,7 +22,8 @@
 
 var mock_database = {
   "users" : [{  "username": "test123", "password": "blah", "level": "USER"},
-             {  "username": "test234", "password": "blah", "level": "USER"}]
+  {  "username": "test234", "password": "blah", "level": "USER"},
+  {  "username": "test345", "password": "blah", "level": "USER"}]
 
 };
 
@@ -71,6 +72,7 @@ var mock_database = {
  		res.redirect('/');
  	}
  	res.render('chat', {title: "Chat Room", username: req.session.username});
+
 
  };
 

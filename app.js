@@ -40,7 +40,8 @@
  var num_users = 0;
  var mock_database = {
   "users" : [{  "username": "test123", "password": "blah", "level": "USER"},
-  {  "username": "test234", "password": "blah", "level": "USER"}]
+  {  "username": "test234", "password": "blah", "level": "USER"},
+  {  "username": "test345", "password": "blah", "level": "USER"}]
 
 };
 var num_users = 0;
@@ -66,41 +67,35 @@ app.post('/', routes.home_post_handler);
  */
 
  io.sockets.on('connection', function(socket){
-  socket.on('sendchat', function(msg, current_user){
-    console.log(socket.store.data);
+  socket.on('sendchat', function(msg){  
+   socket.get('nickname', function (err, name) {
     for(var i = 0; i < usernames.length; i++){
-      io.sockets.emit('updatehat', current_user, msg);
-      if(current_user == usernames[i]){
-       socket.get('nickname', function (err, name) {
+      if(name == usernames[i]){
         io.sockets.emit('updatechat', name, msg);
-       });
-     }
-   };
- });
-  socket.on('log_out', function(user){
-    console.log("THIS USER HAS BEEN LOGGED OFF: " + user);
-    for(var i = 0; i < usernames.length; i++){
-      if(user == usernames[i]){
-        usernames.splice(i, 1);
-        io.sockets.emit('updateusers', usernames);
-        socket.disconnect();
       }
-    };
+    }
   });
-  socket.on('ready', function(){
-    console.log('connected!');
+ });
+  socket.on('log_out', function(){
+    socket.get('nickname', function (err, name){
+      for(var i = 0; i < usernames.length; i++){
+        console.log(name);
+        if(name == usernames[i]){
+          console.log("THIS USER HAS BEEN LOGGED OFF: " + name);
+          usernames.splice(i, 1);
+          console.log("USER: " + name + " has disconnected Users: " + usernames.length );
+          io.sockets.emit('updateusers', usernames);
+        }
+      }
+    });
+    //socket.disconnect();
   });
 
-  socket.on('set nickname', function (name) {
+  socket.on('set nickname', function () {
     socket.set('nickname', usernames[usernames.length-1], function () {
-      socket.emit('ready');
+      io.sockets.emit('updateusers', usernames);
     });
-  });
-
-  socket.on('msg', function () {
-    socket.get('nickname', function (err, name) {
-      console.log('Chat message by ', name);
-    });
+    
   });
   
   socket.on('adduser', function(username, password){
@@ -111,13 +106,9 @@ app.post('/', routes.home_post_handler);
         usernames.push(username);
         console.log("Username: " + username + " Users:" + usernames.length);
         io.sockets.emit('updatechat', 'SERVER', username + ' has been connected');
+        
       }
     };    
   });
-  socket.on('init', function(){
-    io.sockets.emit('updateusers', usernames);
-    io.sockets.emit('set_current_user', usernames[usernames.length - 1]);
-  });
-
 });
 

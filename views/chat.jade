@@ -15,23 +15,22 @@ script
         $('#users').empty();
         for(var i = data.length-1; i >= 0; --i){
             if(data[i] != undefined){
-                console.log("CALLS UPDATE USERS! USERS: " + data);
                 $('#users').append( data[i] + '<br>');
             }
         }
     });
-    socket.on('set_current_user', function(current){
-            current_user = current;
+    socket.on('disconnect', function(){
+        socket.emit('log_out');
     });
     $(function(){
         $('#datasend').click(function() {
             var message = $('#data').val();
             $('#data').val("");
-            socket.emit('sendchat', message, current_user);
+            socket.emit('sendchat', message);
         });
 
         $('#logout').click(function(){
-            socket.emit('log_out', current_user);
+            socket.emit('log_out');
         });
         $('#data').keypress(function(e){
           if(e.which == 13){
@@ -46,7 +45,7 @@ block content
   #container
     #userbar
       | Welcome #{username} |
-      a(href='/logout', id='logout') Log Out
+      a(href='/logout', id="logout") Log Out
     #users
     #conversation
     input(type='text', id="data", style="width:200px;")
