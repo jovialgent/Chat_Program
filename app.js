@@ -72,9 +72,13 @@ app.post('/', routes.home_post_handler);
     if(msg != ""){
      socket.get('nickname', function (err, name) {
       for(var i = 0; i < usernames.length; i++){
-        console.log("PARSED: " + text.emoticonParse(msg));
+        
         if(name == usernames[i]){
-          io.sockets.emit('updatechat', name, text.emoticonParse(msg));
+          var temp_text = msg;
+          temp_text = text.emoticonParse(msg);
+          temp_text = text.hyperTextParse(temp_text);
+          console.log("PARSED: " + temp_text);
+          io.sockets.emit('updatechat', name, temp_text);
         }
       }
     });
