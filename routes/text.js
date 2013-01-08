@@ -7,7 +7,7 @@ var   img_opener = '<img src="'
 var emoticons = {
 	violin: 'http://www.midwestsportsfans.com/wp-content/uploads/2011/06/lebron-smallest-violin.gif',
 	wtf: 'http://i.imgur.com/8QmIp.gif',
-	thumpsup: 'http://i.imgur.com/ttb0r.gif',
+	thumbsup: 'http://i.imgur.com/ttb0r.gif',
 	omg: 'http://media.tumblr.com/tumblr_lvgm1whNKs1qdlkgg.gif',
 	wink: 'http://i.imgur.com/QmNDt.gif',
 	coolstory: 'http://i.imgur.com/vGdg9.gif',
