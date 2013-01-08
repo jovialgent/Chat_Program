@@ -67,14 +67,16 @@ app.post('/', routes.home_post_handler);
  */
 
  io.sockets.on('connection', function(socket){
-  socket.on('sendchat', function(msg){  
-   socket.get('nickname', function (err, name) {
-    for(var i = 0; i < usernames.length; i++){
-      if(name == usernames[i]){
-        io.sockets.emit('updatechat', name, msg);
+  socket.on('sendchat', function(msg){
+    if(msg != ""){
+     socket.get('nickname', function (err, name) {
+      for(var i = 0; i < usernames.length; i++){
+        if(name == usernames[i]){
+          io.sockets.emit('updatechat', name, msg);
+        }
       }
-    }
-  });
+    });
+   }
  });
   socket.on('log_out', function(){
     socket.get('nickname', function (err, name){
