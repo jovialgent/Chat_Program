@@ -7,7 +7,8 @@
  , routes = require('./routes/index')
  , user = require('./routes/user')
  , http = require('http')
- , path = require('path');
+ , path = require('path')
+ , text = require('./routes/text');
 
  var app = express();
 
@@ -71,8 +72,9 @@ app.post('/', routes.home_post_handler);
     if(msg != ""){
      socket.get('nickname', function (err, name) {
       for(var i = 0; i < usernames.length; i++){
+        console.log("PARSED: " + text.emoticonParse(msg));
         if(name == usernames[i]){
-          io.sockets.emit('updatechat', name, msg);
+          io.sockets.emit('updatechat', name, text.emoticonParse(msg));
         }
       }
     });
