@@ -96,7 +96,7 @@ app.post('/', routes.home_post_handler);
         }
       }
     });
-    //socket.disconnect();
+    socket.disconnect();
   });
 
   socket.on('set nickname', function () {
