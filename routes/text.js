@@ -74,20 +74,33 @@ exports.hyperTextParse = function(text){
 	for(var i = 0; i < parsed.length; i++){
 		if(parsed[i].substring(0,4) == 'http'){
 			var link = parsed[i];
-			parsed[i] = a_open_o + link + a_open_c + link + a_close;
+			parse[i] = a_open_o + link + a_open_c + link + a_close;
 		}
-		if(parsed[i].substring(0,8) == "/google="){
-			var temp = parsed[i].substring(8);
-			parsed[i]=searches.google + temp;
+		if(parsed[i].substring(0,7) == '/google'){
+			var link = searches.google;
+			var search = '';
+			for(var j = i+1; j < parsed.length; j++){
+				if(j != parsed.length){
+					link += parsed[j] + '+';
+					search += parsed[j] + ' ';	
+				}
+				else{
+					link +=parsed[j];
+					link +=parsed[j] + '.';
+				}
+				
+			}
+			console.log("THIS IS THE LINK: " + link);
 
+			return temp + ' ' + a_open_o + link + a_open_c + search + a_close;
+		}
+		else{
 
+			temp += (parsed[i] + ' ');
 		}
 
 	}
-	for(var i=0; i<parsed.length; i++){
-		temp += (parsed[i] + ' ')
 
-	}
 	return temp;
 
 }
