@@ -1,20 +1,19 @@
-
 /*
  * GET home page.
  */
 
  var _mysql   = require('mysql')
-   , HOST     = 'localhost'
-   , USERNAME = 'root'
-   , PASSWORD = 'root'
-   , DATABASE = 'test'
-   , TABLE    = 'usernames_passwords';
+   , HOST     = ''
+   , USERNAME = ''
+   , PASSWORD = ''
+   , DATABASE = ''
+   , TABLE    = '';
 
 
 //Configure the mySQL database call
 // var mysql = _mysql.createConnection({
 // 	host: HOST,
-// 	port: 3306,
+// 	port: '',
 // 	user: USERNAME,
 // 	password: PASSWORD
 //
