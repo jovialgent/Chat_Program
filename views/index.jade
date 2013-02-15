@@ -4,8 +4,8 @@ html
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js')
   script(src='socket.io/socket.io.js')
   script
-      var host = 'localhost';
-      var socket = io.connect('http://' + host + ':3000');
+      var host = '';
+      var socket = io.connect('http://' + host + ':');
       socket.on('connect', function(){
 
       });
